@@ -1,0 +1,23 @@
+set terminal pngcairo size 1000,600 enhanced font 'Arial,14'
+set output 'cumulative_mse_comparison.png'
+
+# Font sizes
+set title "Cumulative MSE Comparison" font "Arial,18"
+set xlabel "Example Index" font "Arial,18"
+set ylabel "Cumulative MSE" font "Arial,18"
+set key top right font "Arial,16"
+set tics font "Arial,16"
+set grid
+set format y "%.4f"
+set xrange [-500:*]
+
+# Line styles
+set style line 1 lt 1 lw 2 dashtype solid linecolor rgb "#4040C9"      # KNN: solid blue
+set style line 2 lt 1 lw 2 dashtype (10,7)  linecolor rgb "#0FA223"     # HT: short dashed red
+
+# Plot
+plot \
+"< paste knn.txt y_true.txt | awk '{ diff = \$1 - \$2; sq = diff * diff; sum += sq; print NR-1, sum/NR }'" using 1:2 with lines linestyle 1 title 'KNN', \
+"< paste ht.txt y_true.txt | awk '{ diff = \$1 - \$2; sq = diff * diff; sum += sq; print NR-1, sum/NR }'" using 1:2 with lines linestyle 2 title 'HT'
+
+unset output
