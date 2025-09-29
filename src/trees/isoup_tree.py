@@ -455,8 +455,8 @@ class iSOUPTreeRegressor(HoeffdingTreeRegressor, MultiOutputMixin):
         try:
             predictions = np.zeros((r, self._n_targets), dtype=np.float64)
         except AttributeError:
-            warnings.warn("Calling predict without previously fitting the model at least once.\n"
-                          "Predictions will default to a column array filled with zeros.")
+            #warnings.warn("Calling predict without previously fitting the model at least once.\n"
+             #             "Predictions will default to a column array filled with zeros.")
             return np.zeros((r, 1))
         for i in range(r):
             node = self._tree_root.filter_instance_to_leaf(X[i], None, -1).node

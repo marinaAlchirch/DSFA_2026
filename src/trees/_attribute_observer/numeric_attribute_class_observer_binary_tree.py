@@ -1,7 +1,7 @@
 from collections import Counter
 
-from trees._attribute_test import NumericAttributeBinaryTest
-from trees._attribute_test import AttributeSplitSuggestion
+from src.trees._attribute_test import NumericAttributeBinaryTest
+from src.trees._attribute_test import AttributeSplitSuggestion
 from .attribute_observer import AttributeObserver
 
 

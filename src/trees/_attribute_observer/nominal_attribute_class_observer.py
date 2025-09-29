@@ -1,6 +1,6 @@
-from trees._attribute_test import AttributeSplitSuggestion
-from trees._attribute_test import NominalAttributeBinaryTest
-from trees._attribute_test import NominalAttributeMultiwayTest
+from src.trees._attribute_test import AttributeSplitSuggestion
+from src.trees._attribute_test import NominalAttributeBinaryTest
+from src.trees._attribute_test import NominalAttributeMultiwayTest
 from .attribute_observer import AttributeObserver
 
 

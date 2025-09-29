@@ -54,7 +54,6 @@ class CollectionOfBins:
     def organiseLabelsIntoBins(self, labels):
         min_label = min(labels) # find the minimum label value from the label dataset
         max_label = max(labels) # find the maximum label value from the label dataset
-
         num_bins = int((max_label - min_label) /self.range_of_bin) + 1
 
         # Initialize an empty bins list, by determining the lower and upper bound of bin based on
