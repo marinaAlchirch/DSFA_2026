@@ -1038,6 +1038,72 @@ def electric_power_comsumption_experiment(metric='mse', parameters = {
 
 
 
+def electric_power_comsumption_experiment_hs(metric='mse', parameters = {
+        'lambda_list': [1, 5, 10],
+        'h_list': [0.1, 1, 10],
+        'window_size_list': [50, 100, 200]
+    }, tuning_times=4):
+
+    path = "/Users/pantia-marinaalchirch/Documents/OU/Research/Streams/data/household_power_consumption.txt"
+
+    # read first 20k; treat '?' as NaN
+    cols = ["Date", "Time", "Global_active_power", "Global_reactive_power", "Voltage",
+            "Global_intensity", "Sub_metering_1", "Sub_metering_2", "Sub_metering_3"]
+    df = pd.read_csv(path, sep=";", nrows=100000, usecols=cols,
+                     na_values="?", low_memory=False)
+
+    # parse datetime (day-first in this dataset)
+    df["datetime"] = pd.to_datetime(df["Date"] + " " + df["Time"], dayfirst=True, errors="coerce")
+    df["hour"] = df["datetime"].dt.hour.astype("int8")
+    df["dow"] = df["datetime"].dt.dayofweek.astype("int8")
+    # df["epoch_s"] = df["datetime"].astype("int64") / 1e9  # alternative single numeric time feature
+
+    y = pd.to_numeric(df["Global_active_power"], errors="coerce")
+
+    X = df[[
+        "Global_reactive_power", "Voltage", "Global_intensity",
+        "Sub_metering_1", "Sub_metering_2", "Sub_metering_3",
+        "hour", "dow"  # or "epoch_s"
+    ]].copy()
+
+    mask = df["datetime"].notna() & y.notna() & (~X.isna().any(axis=1))
+    X = X.loc[mask].astype(np.float32).reset_index(drop=True)
+    y = y.loc[mask].astype(np.float32).reset_index(drop=True)
+
+    print(X.shape, y.shape)
+
+    # Run tuning & training
+    ht_preds, ht_hs_preds, y_true = tune_and_train_on_hierarchical_shrinkage(
+        parameters=parameters,
+        X=X,
+        y=y,
+        tune_metric_selection=metric,
+        tuning_times=tuning_times
+    )
+
+    np.savetxt('/Users/pantia-marinaalchirch/PycharmProjects/ht_library_my_version/results/hs/EPowerConsumption/ht_preds.txt',
+               ht_preds)
+    np.savetxt('/Users/pantia-marinaalchirch/PycharmProjects/ht_library_my_version/results/hs/EPowerConsumption/ht_hs_preds.txt',
+               ht_hs_preds)
+    np.savetxt(
+        '/Users/pantia-marinaalchirch/PycharmProjects/ht_library_my_version/results/hs/EPowerConsumption/y_true.txt',
+        y_true)
+
+    # Basic checks
+    assert len(ht_preds) == len(y_true)
+    assert len(ht_hs_preds) == len(y_true)
+    print("Test passed: All prediction lists are of correct length!")
+
+    # Final MSE
+    from sklearn.metrics import mean_squared_error
+    mse_ht = mean_squared_error(y_true, ht_preds)
+    mse_ht_hs = mean_squared_error(y_true, ht_hs_preds)
+
+    print("\nFinal Mean Squared Errors:")
+    print(f"HT MSE:      {mse_ht:.4f}")
+    print(f"HT+HS MSE:   {mse_ht_hs:.4f}")
+
+
 """Extra code for wandb chatgpt generated. Starts form below here"""
 
 # pip install wandb
