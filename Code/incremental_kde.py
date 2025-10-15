@@ -25,7 +25,11 @@ def create_models(model_name, lambda_list, h_list, window_size_list, y):
     h_list = h_list if h_list else [1]
     window_size_list = window_size_list if window_size_list else [1]
     kernels=[CustomGaussianKernel(sigma=1), CustomEpanechnikovKernel()]
-    range_of_bin_list = [0, 1, 2, 5, 10]
+    range_of_bin_list = []
+    if model_name == "ht":
+        range_of_bin_list = [0, 1, 2, 5, 10]
+    else:
+        range_of_bin_list = [0, 1, 2]
     #range_of_bin_list = [0, 1, 2, 10]
     #range_of_bin_list = [0, 1, 2]
     #range_of_bin_list = [0, 1, 2, 5]
@@ -35,8 +39,10 @@ def create_models(model_name, lambda_list, h_list, window_size_list, y):
 
     model_used = None
     if model_name == 'hat':
+        print("model name is hat")
         model_used = HoeffdingAdaptiveTreeRegressor(leaf_prediction="perceptron", random_state=42)
     if model_name == 'ht':
+        print("model name is ht")
         model_used = HoeffdingTreeRegressor(leaf_prediction="perceptron", random_state=42)
     fall_back_kde_model = IncrKDEModel(y=y, model=model_used, parameters=parameters, fall_back=True)
     kde_models.append(fall_back_kde_model)
@@ -685,7 +691,8 @@ def electric_power_comsumption_experiment(path, model_name='ht', no_lambda=True,
         y=y,
         tune_metric_selection=metric,
         tuning_times=tuning_times,
-        no_lambda=no_lambda
+        no_lambda=no_lambda,
+        model_name=model_name
     )
 
     np.savetxt('/Users/pantia-marinaalchirch/PycharmProjects/ht_library_my_version/results/'+model_name+'/EPowerConsumption/ht_preds.txt',
