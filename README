@@ -1,0 +1,27 @@
+__Description__:
+
+This is an implementation of :
+
+1) Incremental Kernel Density Estimation (KDE), and
+2) Hierarchical Shrinkage (HS)
+
+in the context of streaming environments
+
+
+__Directories__:
+
+Our Incremental KDE implementation is located in directory Code, and
+our HS implementation is in files:
+src/trees/hoeffding_tree_regressor.py and src/trees/hoeffding_tree.py, which aside
+from the HS implementation are from the scikit-multiflow library (http://jmlr.org/papers/v19/18-251.html)
+
+The rest of the files that are inside the src directory are from the scikit-multiflow library and are
+necessary for our code to run, for technical purposes.
+
+
+__Experiments__:
+Inside the directory Code, there's the experiments.ipynb file, where by changing the paths to yours
+you can run our experiments and retrieve the results as we describe in our paper.
+
+//Note : please create all necessary paths for locating the data used and saving
+the results of the experiments, which are txt files containing the predictions of the models.//
