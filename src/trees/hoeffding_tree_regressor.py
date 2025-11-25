@@ -393,7 +393,7 @@ class HoeffdingTreeRegressor(RegressorMixin, HoeffdingTreeClassifier):
             current.set_child(branch_id, leaf_node)
             self._active_leaf_node_cnt += 1
             leaf_node.learn_one(X, y, weight=sample_weight, tree=self)
-            # leaf_node.add_sample_in_node() # Marina added this
+            # leaf_node.add_sample_in_node()
         if self._train_weight_seen_by_model % self.memory_estimate_period == 0:
             self._estimate_model_byte_size()
 
@@ -499,7 +499,7 @@ class HoeffdingTreeRegressor(RegressorMixin, HoeffdingTreeClassifier):
             current.set_child(branch_id, leaf_node)
             self._active_leaf_node_cnt += 1
             leaf_node.learn_one(X, y, weight=sample_weight, tree=self)
-            # leaf_node.add_sample_in_node() # Marina added this
+            # leaf_node.add_sample_in_node()
         if self._train_weight_seen_by_model % self.memory_estimate_period == 0:
             self._estimate_model_byte_size()
 
@@ -526,7 +526,7 @@ class HoeffdingTreeRegressor(RegressorMixin, HoeffdingTreeClassifier):
 
                     predictions.append(node.predict_one(X[i], tree=self)) # Original code
                     #print("original tree, leaf_node_pred : " + str(node.predict_one(X[i], tree=self)))
-                    #predictions.append(node.stats[1] / node.stats[0]) # Marina change
+                    #predictions.append(node.stats[1] / node.stats[0])
                 else:
                     # The instance sorting ended up in a Split Node, since no branch was found
                     # for some of the instance's features. Use the mean prediction in this case
@@ -536,7 +536,7 @@ class HoeffdingTreeRegressor(RegressorMixin, HoeffdingTreeClassifier):
             predictions.append(0.0)
         return np.asarray(predictions)
 
-    ######## Marina code starts here : 11/15/2024 ##########
+    ######## My code starts here : 11/15/2024 ##########
 
     def predictHSNew(self, X, lambda_selected=0.1):
         """Predicts the target value using mean class or the perceptron.

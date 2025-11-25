@@ -29,6 +29,7 @@ def plot_distributions(kernel, kernel_distr_dict, h_list, emp_density_normalized
         counter += 1
 
     # Styling
+    sns.set(font_scale=2)
     plt.xlabel('Label', fontsize=16)
     plt.ylabel('Normalized Count / Normalized KDE Weight', fontsize=16)
     plt.title("Empirical and KDE Curves for Different Bandwidths", fontsize=16)

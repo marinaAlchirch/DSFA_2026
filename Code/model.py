@@ -164,10 +164,7 @@ class IncrKDEModel:
                     target_value = y.iloc[instance_idx] if isinstance(y, pd.Series) else y[instance_idx]
                     self.model.partial_fit(X=x_instance, y=[target_value], sample_weight=[normalized_incremental_weights[target_value]])
         else:
-            # ht = HoeffdingTreeRegressor(leaf_prediction="perceptron", random_state=42)
-            # ht_no_weight = HoeffdingTreeRegressor(leaf_prediction="perceptron", random_state=42)
-            # ht_preds = []
-            # ht_no_weight_preds = []
+
             for instance_idx in range(len(X)):
 
                 x_instance = X[instance_idx]
@@ -181,26 +178,10 @@ class IncrKDEModel:
                 prediction = self.model.predict(x_instance)[0]
                 self.predictions.append(prediction)
 
-                # ht_pred = ht.predict(x_instance)[0]
-                # ht_preds.append(ht_pred)
-                #
-                # ht_no_weight_pred = ht_no_weight.predict(x_instance)[0]
-                # ht_no_weight_preds.append(ht_no_weight_pred)
-
                 # Train
                 target_value = y.iloc[instance_idx] if isinstance(y, pd.Series) else y[instance_idx]
                 self.model.partial_fit(X=x_instance, y=[target_value])
-            #     ht.partial_fit(X=x_instance, y=[target_value], sample_weight=[1 / len(sorted(set(self.y)))])
-            #     ht_no_weight.partial_fit(X=x_instance, y=[target_value])
-            #
-            # for pred in ht_preds:
-            #     if pred not in self.predictions:
-            #         print("HT and KDE model with no KDE just HT have a different prediction ")
-            #         break
-            # for pred in ht_no_weight_preds:
-            #     if pred not in self.predictions:
-            #         print("HT with no weight assigned and KDE model with no KDE just HT have a different prediction ")
-            #         break
+
 
 
     def get_model_parameters(self):

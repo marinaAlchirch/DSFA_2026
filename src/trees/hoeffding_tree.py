@@ -355,7 +355,7 @@ class HoeffdingTreeClassifier(BaseSKMObject, ClassifierMixin):
         if self._train_weight_seen_by_model % self.memory_estimate_period == 0:
             self._estimate_model_byte_size()
 
-    ###### Marina code starts here #########
+    ###### My code starts here #########
     def partial_fitHS(self, X, y, classes=None, sample_weight=None):
         """ Incrementally trains the model. Train samples (instances) are
         composed of X attributes and their corresponding targets y.
@@ -461,7 +461,7 @@ class HoeffdingTreeClassifier(BaseSKMObject, ClassifierMixin):
 
         if self._train_weight_seen_by_model % self.memory_estimate_period == 0:
             self._estimate_model_byte_size()
-        ######### Marina code ends here #################
+        ######### My code ends here #################
 
     def _get_votes_for_instance(self, X):
         """ Get class votes for a single instance.
@@ -562,7 +562,7 @@ class HoeffdingTreeClassifier(BaseSKMObject, ClassifierMixin):
             predictions = np.asarray(list(itertools.zip_longest(*predictions, fillvalue=0.0))).T
         return predictions
 
-    ########## Marina code starts here ###########
+    ########## My code starts here ###########
 
     # Predict proba : sort the example in a leaf. Then take the probabilities of each class in this leaf for this example
     # returns an array of probabilities, where each index corresponds to a different class
@@ -910,7 +910,7 @@ class HoeffdingTreeClassifier(BaseSKMObject, ClassifierMixin):
     #                 # predictions.append(root_mean_response + sum_of_hs_equation)
     #
 
-    ########## Marina code ends here ###########
+    ########## My code ends here ###########
 
     @property
     def model_measurements(self):
