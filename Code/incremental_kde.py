@@ -26,13 +26,16 @@ def create_models(model_name, lambda_list, h_list, window_size_list, y):
     window_size_list = window_size_list if window_size_list else [1]
     kernels=[CustomGaussianKernel(sigma=1), CustomEpanechnikovKernel()]
     range_of_bin_list = []
-    if model_name == "ht":
-        range_of_bin_list = [0, 1, 2, 5, 10]
-    else:
-        range_of_bin_list = [0, 1, 2]
+    #if model_name == "ht":
+    #    range_of_bin_list = [0, 1, 2, 5, 10]
+    #else:
+    #    range_of_bin_list = [0, 1, 2]
     #range_of_bin_list = [0, 1, 2, 10]
     #range_of_bin_list = [0, 1, 2]
     #range_of_bin_list = [0, 1, 2, 5]
+    #range_of_bin_list = [0, 1, 2, 5, 10]
+    #range_of_bin_list = [0, 0.01, 0.05, 0.1]
+    range_of_bin_list = [0, 0.1, 0.2, 0.5, 1]
 
     parameters = {'lambda_selected': None, 'h': None, 'window_size': None, 'kernel': None,
                   'kde_type': None, 'range_of_bin': None}
@@ -294,7 +297,8 @@ def tune_and_train(parameters, X, y, model_name='ht', tune_metric_selection='mse
     best_parameters = {}
     best_lambda = 0
 
-    tuning_window_size = min(int(len(X) / (2 * tuning_times)), 3000)  # for example, use 50% of each tuning segment
+    tuning_window_size = min(int(len(X) / (2 * tuning_times)), 3000)
+    #tuning_window_size = int(0.2*len(X)/4)
     print(f"tuning_window_size: {tuning_window_size}")
     tuning_start_indices = [int(i * len(X) / tuning_times) for i in range(tuning_times)]
     tuning_start_time = None
@@ -591,9 +595,10 @@ def california_experiment(model_name='ht', no_lambda=True, n_rows=None, metric='
 
     data = fetch_california_housing(as_frame=True)
     features_of_interest = ["AveRooms", "AveBedrms", "AveOccup", "Population"]
-    data = clean_data(data, features_of_interest)
-    X, y = data.data, data.target
-
+    X, y = clean_data(data, features_of_interest)
+    #X, y = data, data_new.target
+    print(f"Size of X: {len(X)}")
+    print(f"Size of y: {len(y)}")
     if n_rows is not None:
         X = X[:n_rows]
         y = y[:n_rows]

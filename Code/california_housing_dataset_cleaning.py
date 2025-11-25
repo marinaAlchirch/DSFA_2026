@@ -86,6 +86,9 @@ def clean_data(data, features_of_interest):
   print("AveOccup: ", countAveOccup)
   print("Dropping those examples from data")
   data.frame = data.frame.drop(indexes_of_illogical_examples)
+  print("Data shape after dropping illogical examples: ", data.frame.shape)
+  data_X, data_y = data.data.drop(indexes_of_illogical_examples), data.target.drop(indexes_of_illogical_examples)
+  data = (data_X, data_y)
   return data
 
 

@@ -38,6 +38,9 @@ def load_NYTaxi_data(path, n_rows=10000):
     # get target column, aka trip_duration
     y = df["trip_duration"].astype(np.float32)
 
+    print(f"df.columns : {len(df.columns)}")
+    print(f"df.shape : {df.shape}")
+
     # we delete extreme outliers
     y = y.clip(lower=60, upper=2 * 60 * 60)
     y = np.log1p(y).astype(np.float32)
@@ -95,4 +98,5 @@ def load_NYTaxi_data(path, n_rows=10000):
 
     y = y.loc[X.index].reset_index(drop=True)
     X = X.reset_index(drop=True)
+    print(f"X.shape : {X.shape}")
     return X, y

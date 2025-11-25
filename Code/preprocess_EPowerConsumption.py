@@ -5,7 +5,6 @@ import numpy as np
 def load_EPowerConsumption(path, n_rows):
     path = "/Users/pantia-marinaalchirch/Documents/OU/Research/Streams/data/household_power_consumption.txt"
 
-    # read first 20k; treat '?' as NaN
     cols = ["Date", "Time", "Global_active_power", "Global_reactive_power", "Voltage",
             "Global_intensity", "Sub_metering_1", "Sub_metering_2", "Sub_metering_3"]
     df = pd.read_csv(path, sep=";", nrows=n_rows, usecols=cols,
